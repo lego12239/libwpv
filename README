@@ -1,0 +1,36 @@
+libwpv
+======
+
+The library for formatting and parsing WPV data(suitable for binary payload).
+
+WPV format
+==========
+
+WPV (Width Prefixed Values) data consists of WPV records, which looks like this:
+
+<N1>DATA[N1]<N2>DATA[N2]\n
+
+A length of a next field is specified between '<' and '>' symbols.
+A length is a decimal number string that converted to a number by strtol().
+After this a data is placed. After this a next field can be placed. And
+in the end of a record newline character is placed.
+
+Using
+=====
+
+At first, we need to create a wvp record struct:
+
+struct wpvr *r;
+r = wpv_rmake(0, 0, 0);
+
+After this, we can add fields:
+
+wpv_raddf(r, "Data", strlen("Data"));
+
+Or parse a formatted record:
+
+wpv_rparse(r, buf, size_of_buf);
+
+After work, we must free allocated memory with wpv_rfree().
+
+For details see examples.
